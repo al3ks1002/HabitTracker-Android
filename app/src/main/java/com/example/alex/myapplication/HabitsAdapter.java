@@ -1,5 +1,6 @@
 package com.example.alex.myapplication;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
@@ -43,7 +44,7 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
                     Context context = view.getContext();
                     Intent myIntent = new Intent(context, EditHabitActivity.class);
                     myIntent.putExtra("habit_entity", habitEntity);
-                    context.startActivity(myIntent);
+                    ((Activity) context).startActivityForResult(myIntent, 1);
                 }
             });
         }
@@ -79,4 +80,6 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
     public int getItemCount() {
         return habitDataset.size();
     }
+
+
 }

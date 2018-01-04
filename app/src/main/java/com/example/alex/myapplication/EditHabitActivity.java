@@ -1,5 +1,6 @@
 package com.example.alex.myapplication;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,12 +41,6 @@ public class EditHabitActivity extends AppCompatActivity {
                         String.valueOf(titleEditText.getText()),
                         String.valueOf(descriptionEditText.getText()));
 
-                // Intent to modify the habit.
-                Intent modifyIntent = new Intent(EditHabitActivity.this,
-                        MainActivity.class);
-                modifyIntent.putExtra("modified_habit_entity", modifiedHabitEntity);
-                startActivity(modifyIntent);
-
                 // Intent to send an email.
                 Intent sendMailIntent = new Intent(Intent.ACTION_SENDTO,
                         Uri.parse("mailto:" + Uri.encode("al3ks1002@gmail.com")));
@@ -54,6 +49,13 @@ public class EditHabitActivity extends AppCompatActivity {
                         + "New title: " + modifiedHabitEntity.getTitle()
                         + '\n' + "New description: " + modifiedHabitEntity.getDescription());
                 startActivity(sendMailIntent);
+
+                // Intent to modify the habit.
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("modified_habit_entity", modifiedHabitEntity);
+                System.out.println("yea");
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
             }
         });
     }
