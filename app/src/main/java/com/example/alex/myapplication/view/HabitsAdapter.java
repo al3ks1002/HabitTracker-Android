@@ -1,4 +1,4 @@
-package com.example.alex.myapplication;
+package com.example.alex.myapplication.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,7 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.alex.myapplication.domain.HabitEntity;
+import com.example.alex.myapplication.R;
+import com.example.alex.myapplication.model.HabitEntity;
 
 import java.util.List;
 
@@ -22,10 +23,11 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public CardView habitCardView;
-        public TextView titleTextView;
-        public TextView descriptionTextView;
-        public Button editButton;
+        private CardView habitCardView;
+        private TextView titleTextView;
+        private TextView descriptionTextView;
+        private Button editButton;
+        private Button detailsButton;
 
         public ViewHolder(View v) {
             super(v);
@@ -33,6 +35,7 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
             titleTextView = (TextView) v.findViewById(R.id.habit_title_text_view);
             descriptionTextView = (TextView) v.findViewById(R.id.habit_description_text_view);
             editButton = (Button) v.findViewById(R.id.habit_edit_button);
+            detailsButton = (Button) v.findViewById(R.id.habit_details_button);
         }
 
         public void setHabitEntity(final HabitEntity habitEntity) {
@@ -47,6 +50,15 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
                     ((Activity) context).startActivityForResult(myIntent, 1);
                 }
             });
+            detailsButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Context context = view.getContext();
+                    Intent myIntent = new Intent(context, ViewHabitActivity.class);
+                    myIntent.putExtra("habit_entity", habitEntity);
+                    ((Activity) context).startActivityForResult(myIntent, 2);
+                }
+            });
         }
     }
 
@@ -58,7 +70,7 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
     // Create new views (invoked by the layout manager)
     @Override
     public HabitsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+                                                       int viewType) {
         // create a new view
         View v = (View) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.habit_layout, parent, false);
@@ -81,5 +93,18 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
         return habitDataset.size();
     }
 
+    public void notifyUpdate(List<HabitEntity> habitList) {
+        if (habitDataset != null) {
+            habitDataset.clear();
+            habitDataset.addAll(habitList);
 
+        } else {
+            habitDataset = habitList;
+        }
+        notifyDataSetChanged();
+        for (HabitEntity habit : habitDataset) {
+            System.out.println(habit.getId());
+            System.out.println(habit.getTitle());
+        }
+    }
 }

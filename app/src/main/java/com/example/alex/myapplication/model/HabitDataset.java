@@ -1,4 +1,4 @@
-package com.example.alex.myapplication.domain;
+package com.example.alex.myapplication.model;
 
 import java.util.ArrayList;
 import java.util.List;

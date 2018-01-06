@@ -1,23 +1,22 @@
-package com.example.alex.myapplication;
+package com.example.alex.myapplication.view;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.alex.myapplication.domain.HabitEntity;
+import com.example.alex.myapplication.R;
+import com.example.alex.myapplication.model.HabitEntity;
 
 public class EditHabitActivity extends AppCompatActivity {
     private EditText titleEditText;
     private EditText descriptionEditText;
     private Button saveChangesButton;
+    private Button deleteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +26,7 @@ public class EditHabitActivity extends AppCompatActivity {
         titleEditText = (EditText) findViewById(R.id.title_edit_text);
         descriptionEditText = (EditText) findViewById(R.id.description_edit_text);
         saveChangesButton = (Button) findViewById(R.id.save_changes_button);
+        deleteButton = (Button) findViewById(R.id.delete_butoon);
 
         final HabitEntity habitEntity = (HabitEntity) getIntent()
                 .getExtras().getSerializable("habit_entity");
@@ -52,12 +52,26 @@ public class EditHabitActivity extends AppCompatActivity {
 
                 // Intent to modify the habit.
                 Intent returnIntent = new Intent();
-                returnIntent.putExtra("modified_habit_entity", modifiedHabitEntity);
-                System.out.println("yea");
+                returnIntent.putExtra("habit_entity", modifiedHabitEntity);
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();
             }
         });
+
+        if (!getIntent().hasExtra("create")) {
+            deleteButton.setVisibility(View.VISIBLE);
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Intent to delete the habit.
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("habit_entity", habitEntity);
+                    returnIntent.putExtra("delete", true);
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                }
+            });
+        }
     }
 
 }

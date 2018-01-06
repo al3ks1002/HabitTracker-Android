@@ -37,6 +37,13 @@
                 android:layout_below="@+id/habit_description_text_view"
                 android:text="Edit" />
 
+            <Button
+                android:id="@+id/habit_details_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/habit_edit_button"
+                android:text="Details" />
+
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 

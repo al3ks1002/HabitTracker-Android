@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.alex.myapplication.EditHabitActivity"
+    tools:context="com.example.alex.myapplication.view.EditHabitActivity"
     tools:showIn="@layout/activity_edit_habit">
 
     <LinearLayout
@@ -23,8 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Title" />
+            android:hint="Title"
+            android:inputType="textPersonName" />
 
         <TextView
             android:layout_width="match_parent"
@@ -36,14 +36,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Description" />
+            android:hint="Description"
+            android:inputType="textPersonName" />
 
         <Button
             android:id="@+id/save_changes_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Save changes" />
+
+        <Button
+            android:id="@+id/delete_butoon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:visibility="invisible" />
 
     </LinearLayout>
 
