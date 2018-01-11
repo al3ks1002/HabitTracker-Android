@@ -1,4 +1,4 @@
-package com.example.alex.myapplication.view;
+package com.example.alex.habit.view;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,8 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.alex.myapplication.R;
-import com.example.alex.myapplication.model.HabitEntity;
+import com.example.alex.habit.R;
+import com.example.alex.habit.model.HabitEntity;
+import com.example.alex.habit.model.UserEntity;
 
 public class EditHabitActivity extends AppCompatActivity {
     private EditText titleEditText;
@@ -31,6 +32,9 @@ public class EditHabitActivity extends AppCompatActivity {
         final HabitEntity habitEntity = (HabitEntity) getIntent()
                 .getExtras().getSerializable("habit_entity");
 
+        final UserEntity userEntity = (UserEntity) getIntent()
+                .getExtras().getSerializable("user_entity");
+
         titleEditText.setText(habitEntity.getTitle());
         descriptionEditText.setText(habitEntity.getDescription());
         saveChangesButton.setOnClickListener(new View.OnClickListener() {
@@ -39,7 +43,8 @@ public class EditHabitActivity extends AppCompatActivity {
                 HabitEntity modifiedHabitEntity = new HabitEntity(
                         habitEntity.getId(),
                         String.valueOf(titleEditText.getText()),
-                        String.valueOf(descriptionEditText.getText()));
+                        String.valueOf(descriptionEditText.getText()),
+                        userEntity.getEmail());
 
                 // Intent to send an email.
                 Intent sendMailIntent = new Intent(Intent.ACTION_SENDTO,
@@ -63,10 +68,10 @@ public class EditHabitActivity extends AppCompatActivity {
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // Intent to delete the habit.
+                    // Intent to deleteHabit the habit.
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("habit_entity", habitEntity);
-                    returnIntent.putExtra("delete", true);
+                    returnIntent.putExtra("deleteHabit", true);
                     setResult(Activity.RESULT_OK, returnIntent);
                     finish();
                 }

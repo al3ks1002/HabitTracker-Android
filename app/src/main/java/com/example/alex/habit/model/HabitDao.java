@@ -1,4 +1,4 @@
-package com.example.alex.myapplication.model;
+package com.example.alex.habit.model;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -11,8 +11,8 @@ import java.util.List;
 
 @Dao
 public interface HabitDao {
-    @Query("SELECT * FROM habits")
-    List<HabitEntity> getHabitList();
+    @Query("SELECT * FROM habits WHERE email is :email")
+    List<HabitEntity> getHabitList(String email);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addHabit(HabitEntity habit);
@@ -20,7 +20,7 @@ public interface HabitDao {
     @Delete
     void deleteHabit(HabitEntity habit);
 
-    @Query("Select date FROM habit_dates WHERE habitId is :id")
+    @Query("Select date FROM habit_date WHERE habitId is :id")
     List<Date> getDatesForHabit(int id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -28,4 +28,13 @@ public interface HabitDao {
 
     @Delete
     void deleteHabitDate(HabitDate habitDate);
+
+    @Query("SELECT * FROM users WHERE email is :email")
+    UserEntity getUser(String email);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void addUser(UserEntity user);
+
+    @Query("SELECT * FROM users")
+    List<UserEntity> getUserList();
 }

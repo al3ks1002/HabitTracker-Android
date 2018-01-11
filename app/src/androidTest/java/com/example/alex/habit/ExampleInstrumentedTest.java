@@ -1,4 +1,4 @@
-package com.example.alex.myapplication;
+package com.example.alex.habit;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

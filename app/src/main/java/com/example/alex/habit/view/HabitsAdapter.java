@@ -1,4 +1,4 @@
-package com.example.alex.myapplication.view;
+package com.example.alex.habit.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,13 +11,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.alex.myapplication.R;
-import com.example.alex.myapplication.model.HabitEntity;
+import com.example.alex.habit.R;
+import com.example.alex.habit.model.HabitEntity;
+import com.example.alex.habit.model.UserEntity;
 
 import java.util.List;
 
 public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder> {
     private List<HabitEntity> habitDataset;
+    private UserEntity userEntity;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -38,7 +40,7 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
             detailsButton = (Button) v.findViewById(R.id.habit_details_button);
         }
 
-        public void setHabitEntity(final HabitEntity habitEntity) {
+        public void setHabitEntity(final HabitEntity habitEntity, final UserEntity userEntity) {
             titleTextView.setText(habitEntity.getTitle());
             descriptionTextView.setText(habitEntity.getDescription());
             editButton.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +49,7 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
                     Context context = view.getContext();
                     Intent myIntent = new Intent(context, EditHabitActivity.class);
                     myIntent.putExtra("habit_entity", habitEntity);
+                    myIntent.putExtra("user_entity", userEntity);
                     ((Activity) context).startActivityForResult(myIntent, 1);
                 }
             });
@@ -56,6 +59,7 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
                     Context context = view.getContext();
                     Intent myIntent = new Intent(context, ViewHabitActivity.class);
                     myIntent.putExtra("habit_entity", habitEntity);
+                    myIntent.putExtra("user_entity", userEntity);
                     ((Activity) context).startActivityForResult(myIntent, 2);
                 }
             });
@@ -63,8 +67,9 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public HabitsAdapter(List<HabitEntity> habitDataset) {
+    public HabitsAdapter(List<HabitEntity> habitDataset, UserEntity userEntity) {
         this.habitDataset = habitDataset;
+        this.userEntity = userEntity;
     }
 
     // Create new views (invoked by the layout manager)
@@ -82,9 +87,9 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // - get element from your dataset at this position
+        // - getHabitList element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.setHabitEntity(habitDataset.get(position));
+        holder.setHabitEntity(habitDataset.get(position),userEntity);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

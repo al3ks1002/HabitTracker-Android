@@ -1,13 +1,12 @@
-package com.example.alex.myapplication.model;
+package com.example.alex.habit.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
 
 import java.util.Date;
 
-@Entity(primaryKeys = {"habitId", "date"}, tableName = "habit_dates")
+@Entity(primaryKeys = {"habitId", "date"}, tableName = "habit_date")
 public class HabitDate {
     @ColumnInfo(name = "habitId")
     private int habitId;

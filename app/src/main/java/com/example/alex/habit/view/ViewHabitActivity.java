@@ -1,10 +1,9 @@
-package com.example.alex.myapplication.view;
+package com.example.alex.habit.view;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,20 +14,17 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-import com.example.alex.myapplication.R;
-import com.example.alex.myapplication.model.DateUtils;
-import com.example.alex.myapplication.model.HabitEntity;
-import com.example.alex.myapplication.model.HabitRepository;
+import com.example.alex.habit.R;
+import com.example.alex.habit.model.DateUtils;
+import com.example.alex.habit.model.HabitEntity;
+import com.example.alex.habit.model.HabitRepository;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -65,7 +61,7 @@ public class ViewHabitActivity extends AppCompatActivity {
 
             returnIntent.putExtra("habitId", getArguments().getInt("habitId"));
             returnIntent.putExtra("date", new Date(year, month, day));
-            if (getArguments().getString("operation").equals("add")) {
+            if (getArguments().getString("operation").equals("addHabit")) {
                 returnIntent.putExtra("addOperation", true);
             }
 
@@ -99,7 +95,7 @@ public class ViewHabitActivity extends AppCompatActivity {
             public void onClick(View view) {
                 DialogFragment newFragment = new DatePickerFragment();
                 Bundle bundle = new Bundle(2);
-                bundle.putString("operation", "add");
+                bundle.putString("operation", "addHabit");
                 bundle.putInt("habitId", habitEntity.getId());
                 newFragment.setArguments(bundle);
                 newFragment.show(getFragmentManager(), "datePicker");
@@ -111,7 +107,7 @@ public class ViewHabitActivity extends AppCompatActivity {
             public void onClick(View view) {
                 DialogFragment newFragment = new DatePickerFragment();
                 Bundle bundle = new Bundle(2);
-                bundle.putString("operation", "delete");
+                bundle.putString("operation", "deleteHabit");
                 bundle.putInt("habitId", habitEntity.getId());
                 newFragment.setArguments(bundle);
                 newFragment.show(getFragmentManager(), "datePicker");

@@ -1,4 +1,4 @@
-package com.example.alex.myapplication.model;
+package com.example.alex.habit.model;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
@@ -13,25 +13,29 @@ public class HabitRepository {
 
     private HabitRepository(Context context) {
         this.database = Room.databaseBuilder(context,
-                HabitDatabase.class, "habits-db").allowMainThreadQueries().build();
+                HabitDatabase.class, "habits-db").allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();
     }
 
     public static HabitRepository getInstance(Context context) {
         if (instance == null) {
             instance = new HabitRepository(context);
+            instance.addUser(new UserEntity("al3ksfl@gmail.com", true));
+            instance.addUser(new UserEntity("test@test.com", false));
         }
         return instance;
     }
 
-    public List<HabitEntity> get() {
-        return database.habitDao().getHabitList();
+    public List<HabitEntity> getHabitList(String email) {
+        return database.habitDao().getHabitList(email);
     }
 
-    public void add(HabitEntity habit) {
+    public void addHabit(HabitEntity habit) {
         database.habitDao().addHabit(habit);
     }
 
-    public void delete(HabitEntity habit) {
+    public void deleteHabit(HabitEntity habit) {
         database.habitDao().deleteHabit(habit);
     }
 
@@ -45,5 +49,17 @@ public class HabitRepository {
 
     public void deleteHabitDate(HabitDate habitDate) {
         database.habitDao().deleteHabitDate(habitDate);
+    }
+
+    public UserEntity getUser(String email) {
+        return database.habitDao().getUser(email);
+    }
+
+    public List<UserEntity> getUserList() {
+        return database.habitDao().getUserList();
+    }
+
+    public void addUser(UserEntity user) {
+        database.habitDao().addUser(user);
     }
 }

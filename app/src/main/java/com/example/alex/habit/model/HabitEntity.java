@@ -1,7 +1,8 @@
-package com.example.alex.myapplication.model;
+package com.example.alex.habit.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -17,15 +18,21 @@ public class HabitEntity implements Serializable {
     @ColumnInfo(name = "description")
     private String description;
 
-    public HabitEntity(int id, String title, String description) {
+    @ColumnInfo(name = "email")
+    private String email;
+
+    @Ignore
+    public HabitEntity(int id, String title, String description, String email) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.email = email;
     }
 
-    public HabitEntity() {
+    public HabitEntity(String email) {
         this.title = "";
         this.description = "";
+        this.email = email;
     }
 
     public int getId() {
@@ -52,11 +59,20 @@ public class HabitEntity implements Serializable {
         this.description = description;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "HabitEntity{" +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

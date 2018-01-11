@@ -1,4 +1,4 @@
-package com.example.alex.myapplication.model;
+package com.example.alex.habit.model;
 
 import java.time.Instant;
 import java.time.LocalDate;
