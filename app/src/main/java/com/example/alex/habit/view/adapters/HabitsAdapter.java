@@ -1,4 +1,4 @@
-package com.example.alex.habit.view;
+package com.example.alex.habit.view.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.example.alex.habit.R;
 import com.example.alex.habit.model.HabitEntity;
 import com.example.alex.habit.model.UserEntity;
+import com.example.alex.habit.view.activities.EditHabitActivity;
+import com.example.alex.habit.view.activities.ViewHabitActivity;
 
 import java.util.List;
 

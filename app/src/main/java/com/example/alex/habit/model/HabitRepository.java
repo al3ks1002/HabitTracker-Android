@@ -21,10 +21,41 @@ public class HabitRepository {
     public static HabitRepository getInstance(Context context) {
         if (instance == null) {
             instance = new HabitRepository(context);
-            instance.addUser(new UserEntity("al3ksfl@gmail.com", true));
-            instance.addUser(new UserEntity("test@test.com", false));
         }
         return instance;
+    }
+
+    public void resetHabits(List<HabitEntity> habitEntities, String email) {
+        for (HabitEntity habit : getHabitList(email)) {
+            deleteHabit(habit);
+        }
+        for (HabitEntity habit : habitEntities) {
+            addHabit(habit);
+        }
+    }
+
+    public void resetHabitDates(List<HabitDateEntity> habitDateEntities) {
+        for (HabitDateEntity habitDate : getHabitDateList()) {
+            deleteHabitDate(habitDate);
+        }
+
+        for (HabitDateEntity habitDate : habitDateEntities) {
+            addHabitDate(habitDate);
+        }
+    }
+
+    public void resetUsers(List<UserEntity> userEntities) {
+        for (UserEntity user : getUserList()) {
+            deleteUser(user);
+        }
+
+        for (UserEntity user : userEntities) {
+            addUser(user);
+        }
+    }
+
+    public List<HabitEntity> getAllHabits() {
+        return database.habitDao().getAllHabits();
     }
 
     public List<HabitEntity> getHabitList(String email) {
@@ -43,12 +74,16 @@ public class HabitRepository {
         return database.habitDao().getDatesForHabit(id);
     }
 
-    public void addHabitDate(HabitDate habitDate) {
-        database.habitDao().addHabitDate(habitDate);
+    public List<HabitDateEntity> getHabitDateList() {
+        return database.habitDao().getHabitDateList();
     }
 
-    public void deleteHabitDate(HabitDate habitDate) {
-        database.habitDao().deleteHabitDate(habitDate);
+    public void addHabitDate(HabitDateEntity habitDateEntity) {
+        database.habitDao().addHabitDate(habitDateEntity);
+    }
+
+    public void deleteHabitDate(HabitDateEntity habitDateEntity) {
+        database.habitDao().deleteHabitDate(habitDateEntity);
     }
 
     public UserEntity getUser(String email) {
@@ -61,5 +96,9 @@ public class HabitRepository {
 
     public void addUser(UserEntity user) {
         database.habitDao().addUser(user);
+    }
+
+    public void deleteUser(UserEntity user) {
+        database.habitDao().deleteUser(user);
     }
 }

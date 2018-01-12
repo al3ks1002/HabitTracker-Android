@@ -14,20 +14,26 @@ public interface HabitDao {
     @Query("SELECT * FROM habits WHERE email is :email")
     List<HabitEntity> getHabitList(String email);
 
+    @Query("SELECT * FROM habits")
+    List<HabitEntity> getAllHabits();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addHabit(HabitEntity habit);
 
     @Delete
     void deleteHabit(HabitEntity habit);
 
+    @Query("Select * FROM habit_date")
+    List<HabitDateEntity> getHabitDateList();
+
     @Query("Select date FROM habit_date WHERE habitId is :id")
     List<Date> getDatesForHabit(int id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addHabitDate(HabitDate habitDate);
+    void addHabitDate(HabitDateEntity habitDateEntity);
 
     @Delete
-    void deleteHabitDate(HabitDate habitDate);
+    void deleteHabitDate(HabitDateEntity habitDateEntity);
 
     @Query("SELECT * FROM users WHERE email is :email")
     UserEntity getUser(String email);
@@ -37,4 +43,7 @@ public interface HabitDao {
 
     @Query("SELECT * FROM users")
     List<UserEntity> getUserList();
+
+    @Delete
+    void deleteUser(UserEntity user);
 }

@@ -1,4 +1,4 @@
-package com.example.alex.habit.view;
+package com.example.alex.habit.view.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,18 +11,24 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.alex.habit.R;
-import com.example.alex.habit.model.HabitDate;
+import com.example.alex.habit.controller.HabitController;
+import com.example.alex.habit.controller.Observer;
+import com.example.alex.habit.model.HabitDateEntity;
 import com.example.alex.habit.model.HabitEntity;
 import com.example.alex.habit.model.HabitRepository;
 import com.example.alex.habit.model.UserEntity;
+import com.example.alex.habit.view.adapters.HabitsAdapter;
+import com.example.alex.habit.view.adapters.UsersAdapter;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
-    private HabitRepository habitRepository;
+public class MainActivity extends AppCompatActivity implements Observer {
+    private HabitController habitController;
 
     private RecyclerView habitsRecyclerView;
     private RecyclerView.LayoutManager habitsLayoutManager;
@@ -40,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        habitRepository = HabitRepository.getInstance(getApplicationContext());
+        habitController = HabitController.getInstance(getApplicationContext());
+        habitController.attach(this);
 
         userEntity = (UserEntity) getIntent()
                 .getExtras().getSerializable("user_entity");
@@ -70,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             habitsRecyclerView.setLayoutManager(habitsLayoutManager);
 
             // specify an adapter
-            habitsAdapter = new HabitsAdapter(habitRepository.getHabitList(userEntity.getEmail()), userEntity);
+            habitsAdapter = new HabitsAdapter(habitController.getHabitList(userEntity.getEmail()), userEntity);
             habitsRecyclerView.setAdapter(habitsAdapter);
         } else {
             welcomeMessage.setText(String.format("Welcome %s - you are an admin user", userEntity.getEmail()));
@@ -83,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             usersRecyclerView.setLayoutManager(usersLayoutManager);
 
             // specify an adapter
-            usersAdapter = new UsersAdapter(habitRepository.getUserList());
+            usersAdapter = new UsersAdapter(habitController.getUserList());
             usersRecyclerView.setAdapter(usersAdapter);
         }
     }
@@ -96,11 +103,11 @@ public class MainActivity extends AppCompatActivity {
                 HabitEntity habit = (HabitEntity) data.
                         getExtras().getSerializable("habit_entity");
                 if (data.hasExtra("deleteHabit")) {
-                    habitRepository.deleteHabit(habit);
+                    habitController.deleteHabit(habit);
                 } else {
-                    habitRepository.addHabit(habit);
+                    habitController.addHabit(habit);
                 }
-                List<HabitEntity> modifiedHabitList = habitRepository.getHabitList(userEntity.getEmail());
+                List<HabitEntity> modifiedHabitList = habitController.getHabitList(userEntity.getEmail());
                 habitsAdapter.notifyUpdate(modifiedHabitList);
             }
         } else if (requestCode == 2) {
@@ -109,16 +116,26 @@ public class MainActivity extends AppCompatActivity {
                 Date date = (Date) data.getExtras().getSerializable("date");
 
                 if (data.hasExtra("addOperation")) {
-                    habitRepository.addHabitDate(new HabitDate(habitId, date));
+                    habitController.addHabitDate(new HabitDateEntity(habitId, date));
                 } else {
-                    habitRepository.deleteHabitDate(new HabitDate(habitId, date));
-                }
-
-                List<Date> dates = habitRepository.getDates(habitId);
-                for (Date mlc : dates) {
-                    System.out.println(mlc);
+                    habitController.deleteHabitDate(new HabitDateEntity(habitId, date));
                 }
             }
+        }
+    }
+
+    @Override
+    public void update(ObserverStatus status, Object object) {
+        if (status == ObserverStatus.OK) {
+            System.out.println("bun");
+            List<HabitEntity> habits = (ArrayList<HabitEntity>) object;
+            if (habitsAdapter != null) {
+                habitsAdapter.notifyUpdate(habits);
+            }
+        } else {
+            System.out.println("rau");
+            String message = (String) object;
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         }
     }
 }

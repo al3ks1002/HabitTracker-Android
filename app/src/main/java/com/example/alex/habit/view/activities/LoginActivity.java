@@ -1,34 +1,32 @@
-package com.example.alex.habit.view;
+package com.example.alex.habit.view.activities;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.alex.habit.R;
-import com.example.alex.habit.model.HabitRepository;
+import com.example.alex.habit.controller.HabitController;
 import com.example.alex.habit.model.UserEntity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     private GoogleSignInClient googleSignInClient;
-    private HabitRepository habitRepository;
+    private HabitController habitController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        habitRepository = HabitRepository.getInstance(getApplicationContext());
+        habitController = HabitController.getInstance(getApplicationContext());
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.server_client_id))
@@ -50,10 +48,10 @@ public class LoginActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount account = task.getResult(ApiException.class);
             Intent intent = new Intent(this, MainActivity.class);
-            UserEntity user = habitRepository.getUser(account.getEmail());
+            UserEntity user = habitController.getUser(account.getEmail());
             if (user == null) {
                 user = new UserEntity(account.getEmail(), false);
-                habitRepository.addUser(user);
+                habitController.addUser(user);
             }
             intent.putExtra("user_entity", user);
             startActivity(intent);

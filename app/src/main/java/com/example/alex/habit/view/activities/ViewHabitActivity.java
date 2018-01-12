@@ -1,4 +1,4 @@
-package com.example.alex.habit.view;
+package com.example.alex.habit.view.activities;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -15,9 +15,9 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.example.alex.habit.R;
-import com.example.alex.habit.model.DateUtils;
+import com.example.alex.habit.utils.DateUtils;
 import com.example.alex.habit.model.HabitEntity;
-import com.example.alex.habit.model.HabitRepository;
+import com.example.alex.habit.controller.HabitController;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
@@ -31,7 +31,7 @@ import java.util.Date;
 import java.util.List;
 
 public class ViewHabitActivity extends AppCompatActivity {
-    private HabitRepository habitRepository;
+    private HabitController habitController;
 
     private TextView titleText;
     private TextView descriptionText;
@@ -76,7 +76,7 @@ public class ViewHabitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_habit);
 
-        habitRepository = HabitRepository.getInstance(getApplicationContext());
+        habitController = HabitController.getInstance(getApplicationContext());
 
         titleText = (TextView) findViewById(R.id.title_text);
         descriptionText = (TextView) findViewById(R.id.description_text);
@@ -114,7 +114,7 @@ public class ViewHabitActivity extends AppCompatActivity {
             }
         });
 
-        List<Date> habitDates = habitRepository.getDates(habitEntity.getId());
+        List<Date> habitDates = habitController.getDates(habitEntity.getId());
         if (habitDates.isEmpty()) {
             return;
         }

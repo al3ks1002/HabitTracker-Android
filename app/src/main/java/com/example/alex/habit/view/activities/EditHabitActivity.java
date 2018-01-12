@@ -1,4 +1,4 @@
-package com.example.alex.habit.view;
+package com.example.alex.habit.view.activities;
 
 import android.app.Activity;
 import android.content.Intent;

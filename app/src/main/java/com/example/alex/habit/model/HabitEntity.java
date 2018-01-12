@@ -5,6 +5,9 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 
 @Entity(tableName = "habits")
@@ -29,10 +32,27 @@ public class HabitEntity implements Serializable {
         this.email = email;
     }
 
+    @Ignore
+    public HabitEntity(JSONObject object) throws JSONException {
+        id = (Integer) object.get("id");
+        title = (String) object.get("title");
+        description = (String) object.get("description");
+        email = (String) object.get("email");
+    }
+
     public HabitEntity(String email) {
         this.title = "";
         this.description = "";
         this.email = email;
+    }
+
+    public JSONObject toJSON() throws JSONException {
+        JSONObject object = new JSONObject();
+        object.put("id", getId());
+        object.put("title", getTitle());
+        object.put("description", getDescription());
+        object.put("email", getEmail());
+        return object;
     }
 
     public int getId() {
