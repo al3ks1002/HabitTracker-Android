@@ -1,10 +1,10 @@
 [
-    {
-        "email": "al3ks1002@gmail.com",
-        "isAdmin": false
-    },
-    {
-        "email": "al3ksfl@gmail.com",
-        "isAdmin": true
-    }
+  {
+    "email": "al3ks1002@gmail.com",
+    "isAdmin": false
+  },
+  {
+    "email": "al3ksfl@gmail.com",
+    "isAdmin": true
+  }
 ]

@@ -35,7 +35,8 @@ public class HabitDateEntity {
     public JSONObject toJSON() throws JSONException {
         JSONObject object = new JSONObject();
         object.put("habitId", getHabitId());
-        object.put("date", DateConverter.dateToTimestamp(getDate()));
+        System.out.println(DateConverter.dateToTimestamp(date));
+        object.put("date", DateConverter.dateToTimestamp(getDate()) - 59958136800000L);
         return object;
     }
 

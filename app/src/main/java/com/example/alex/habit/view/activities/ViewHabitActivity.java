@@ -61,6 +61,8 @@ public class ViewHabitActivity extends AppCompatActivity {
 
             returnIntent.putExtra("habitId", getArguments().getInt("habitId"));
             returnIntent.putExtra("date", new Date(year, month, day));
+            System.out.println("in view habit:");
+            System.out.println(new Date(year, month, day));
             if (getArguments().getString("operation").equals("addHabit")) {
                 returnIntent.putExtra("addOperation", true);
             }

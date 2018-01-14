@@ -1,32 +1,12 @@
 [
   {
-    "date": 61473852000000,
-    "habitId": 1,
-    "habitIdDate": "161473852000000"
+    "date": 1515888000000,
+    "habitId": 13,
+    "habitIdDate": "131515888000000"
   },
   {
-    "date": 61473852000000,
-    "habitId": 4,
-    "habitIdDate": "461473852000000"
-  },
-  {
-    "date": 61474456800000,
-    "habitId": 4,
-    "habitIdDate": "461474456800000"
-  },
-  {
-    "date": 61474888800000,
-    "habitId": 4,
-    "habitIdDate": "461474888800000"
-  },
-  {
-    "date": 61473333600000,
-    "habitId": 1,
-    "habitIdDate": "161473333600000"
-  },
-  {
-    "date": 61475493600000,
-    "habitId": 4,
-    "habitIdDate": "461475493600000"
+    "date": 1516147200000,
+    "habitId": 13,
+    "habitIdDate": "131516147200000"
   }
 ]

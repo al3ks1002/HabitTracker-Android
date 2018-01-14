@@ -34,8 +34,6 @@ class Habits(Resource):
     def delete(self):
         args = parser.parse_args()
         habit = from_json(args["habit"])
-        print(habit)
-        print(habit.keys())
         if habit["id"] in habits.keys():
             habits.pop(habit["id"])
         self.save()
@@ -52,11 +50,10 @@ class Users(Resource):
     def post(self):
         args = parser.parse_args()
         user = from_json(args["user"])
-        if not "email" in user.keys():
-            user["email"] = ""
-        if not "isAdmin" in user.keys():
-            user["isAdmin"] = False
-        users[user["email"]] = user
+        if not user["email"] in users.keys():
+            users[user["email"]] = user
+        else:
+            user = users[user["email"]]
         self.save()
         return user
 
@@ -70,6 +67,7 @@ class Dates(Resource):
 
     def post(self):
         args = parser.parse_args()
+        print(args["habit_date"])
         habit_date = from_json(args["habit_date"])
         habit_date["habitIdDate"] = str(habit_date["habitId"]) + str(habit_date["date"])
         dates[habit_date["habitIdDate"]] = habit_date
@@ -113,6 +111,8 @@ def save_db(db, filename):
 
 def from_json(item):
     item = item.replace("'", '"')
+    item = item.replace("True", "true")
+    item = item.replace("False", "false")
     return json.loads(item)
 
 def to_json(item):

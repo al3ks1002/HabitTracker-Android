@@ -114,8 +114,11 @@ public class MainActivity extends AppCompatActivity implements Observer {
             if (resultCode == Activity.RESULT_OK) {
                 int habitId = data.getExtras().getInt("habitId");
                 Date date = (Date) data.getExtras().getSerializable("date");
+                System.out.println(date);
 
                 if (data.hasExtra("addOperation")) {
+                    System.out.println("in main:");
+                    System.out.println(date);
                     habitController.addHabitDate(new HabitDateEntity(habitId, date));
                 } else {
                     habitController.deleteHabitDate(new HabitDateEntity(habitId, date));
